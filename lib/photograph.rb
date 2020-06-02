@@ -10,4 +10,5 @@ class Photograph
     @artist_id = attributes[:artist_id]
     @year = attributes[:year]
   end
+
 end
