@@ -3,17 +3,15 @@ class Artist
               :name,
               :born,
               :died,
-              :country
+              :country,
+              :age_at_death
 
-  def initialize(arguments)
-    @id      = arguments[:id]
-    @name    = arguments[:name]
-    @born    = arguments[:born]
-    @died    = arguments[:died]
-    @country = arguments[:country]
-  end
-
-  def age_at_death
-    @died.to_i - @born.to_i
+  def initialize(attributes)
+    @id = attributes[:id]
+    @name = attributes[:name]
+    @born = attributes[:born]
+    @died = attributes[:died]
+    @country = attributes[:country]
+    @age_at_death = attributes[:died].to_i - attributes[:born].to_i
   end
 end
