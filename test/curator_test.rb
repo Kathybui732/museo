@@ -29,6 +29,9 @@ class CuratorTest < MiniTest::Test
 
   def test_it_starts_with_no_photographs_until_added
     assert_equal [], @curator.photographs
+    @curator.add_photograph(@photo_1)
+    @curator.add_photograph(@photo_2)
+    assert_equal [@photo_1, @photo_2], @curator.photographs
   end
 
 end
