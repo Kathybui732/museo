@@ -1,4 +1,6 @@
-class Curator
+require_relative "./file_io"
+
+class Curator < FileIO
   attr_reader :photographs,
               :artists
 
@@ -48,5 +50,47 @@ class Curator
     end
   end
 
-  
+  def artists_with_multiple_photographs
+    # x = photographs_by_artist.select do |artist, photos|
+    #   photos.count > 1
+    # end
+    # x.map do |artist, photo|
+    #   artist.name
+    # end
+
+    photographs_by_artist.reduce([]) do |acc, (artist, photos)|
+      acc << artist.name if photos.count > 1
+      acc
+    end
+  end
+
+  def load_photographs(file)
+    x = FileIO.load_photographs(file)
+    x.each do |file|
+      @photographs << Photograph.new(file)
+    end
+  end
+
+  def load_artists(file)
+    x = FileIO.load_artists(file)
+    x.each do |file|
+      @artists << Artist.new(file)
+    end
+  end
+
+  def photographs_taken_between(years_range)
+    years = years_range.to_a
+    @photographs.select do |photo|
+      years.include?(photo.year.to_i)
+    end
+  end
+
+  def artists_photographs_by_age(artist)
+    age = artist.born.to_i
+    hash = Hash.new
+    photographs_by_artist[artist].each do |photo|
+      hash[photo.year.to_i - age] = photo.name
+    end
+    hash
+  end
 end
