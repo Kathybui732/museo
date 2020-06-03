@@ -28,18 +28,25 @@ class Curator
   end
 
   def photographs_by_artist
-    photographs_by_artist = Hash.new
-    @artists.each do |artist|
-      photographs_by_artist[artist] = photographs_by_id(artist.id)
+    @artists.reduce({}) do |acc, artist|
+      acc[artist] ||= []
+      acc[artist] = photographs_by_id(artist.id)
+      acc
     end
-    photographs_by_artist
   end
 
   def photographs_taken_by_artist_from(location)
-    photos_by_location = []
-    photographs_by_artist.each do |artist, photos|
-      photos_by_location << photos if artist.country == location
+    # photos_by_location = []
+    # photographs_by_artist.each do |artist, photos|
+    #   photos_by_location << photos if artist.country == location
+    # end
+    # photos_by_location.flatten
+
+    @photographs.select do |photo|
+      artist = find_artist_by_id(photo.artist_id)
+      artist.country == location
     end
-    photos_by_location.flatten
   end
+
+  
 end
